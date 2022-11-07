@@ -1,0 +1,7 @@
+name: KeeleSurvival
+version: '${project.version}'
+main: dev.joey.keelesurvival.KeeleSurvival
+api-version: 1.19
+authors: [ Joey ]
+description: A plugin for keele's survival server
+website: https://odionwolf.dev
