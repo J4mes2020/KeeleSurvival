@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class ClearLag {
 
-    int clearTimer = 1000;
-    int ticksToRemoval = 3;
+    int clearTimer = 18000;
+    int ticksToRemoval = 3000;
     ArrayList<Entity> entities = new ArrayList<>();
     int entityRemovalCount;
 
