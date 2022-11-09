@@ -42,8 +42,6 @@ public class PlayerEvents implements Listener {
 
             RideableMinecart minecart = (RideableMinecart) event.getVehicle();
 
-            //CHECK THE BELOW BLOCK IF RAILS AND USE THAT FOR VELOCITY
-
             if (!minecart.isEmpty()) {
 
                 Player player = null;
@@ -75,9 +73,6 @@ public class PlayerEvents implements Listener {
                         if (entity instanceof Mob) {
 
                             if (!entity.isInsideVehicle() && entity.isEmpty()) {
-                                // Entity is a monster, animal, NPC, slime, or golem, is not riding in a vehicle and has no passengers.
-                                // Move the entity further away from the minecart.
-                                // This may kill the entity (sucks to be him!).
 
                                 Location entityLocation = entity.getLocation();
                                 double entityX = entityLocation.getX();
@@ -137,7 +132,6 @@ public class PlayerEvents implements Listener {
 
         RideableMinecart minecart = (RideableMinecart) event.getVehicle();
         minecart.setMaxSpeed(0.5D);
-
 
     }
 
