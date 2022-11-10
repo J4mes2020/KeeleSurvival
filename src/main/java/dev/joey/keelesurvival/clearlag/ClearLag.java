@@ -17,73 +17,91 @@ public class ClearLag {
     ArrayList<Entity> entities = new ArrayList<>();
     int entityRemovalCount;
 
+
     public ClearLag(KeeleSurvival keeleSurvival) {
-
+        ControlLag controlLag = new ControlLag(keeleSurvival);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(keeleSurvival, () -> {
-            entityRemovalCount = 0;
 
-            for (World world : Bukkit.getWorlds()) {
-                entities.addAll(world.getEntities());
-            }
-
-            for (Entity entity : entities) {
-
-                if (entity instanceof LivingEntity) {
-
-                    LivingEntity livingEntity = (LivingEntity) entity;
-
-                    if (livingEntity.customName() == null
-                            && livingEntity.getTicksLived() >= ticksToRemoval
-                            && livingEntity.getChunk().getEntities().length > 2
-                            && !livingEntity.isLeashed()) {
-
-                        if (!(livingEntity instanceof Player)
-                                || livingEntity instanceof NPC
-                                || livingEntity instanceof Illager
-                                || livingEntity instanceof Boss
-                                || livingEntity instanceof Warden) {
-
-                            livingEntity.remove();
-                            entityRemovalCount++;
-                        }
-
-                    }
-
-                } else {
-
-                    if (entity.customName() == null
-                            && entity.getTicksLived() >= ticksToRemoval
-                            && entity.getChunk().getEntities().length > 2
-                            && !(entity instanceof Minecart)) {
-
-                        entity.remove();
-                        entityRemovalCount++;
-
+            if (controlLag.isEnabled()) {
+                controlLag.setEnabled(false);
+                for (double TPS : Bukkit.getServer().getTPS()) {
+                    if (TPS <= 10) {
+                        controlLag.setEnabled(true);
+                        clearLagNow();
                     }
                 }
             }
 
-            if (entityRemovalCount > 1) {
-                Bukkit.getServer().sendMessage(Component.text().content("**************************************************************")
-                        .decorate(TextDecoration.BOLD)
-                        .append(Component.text("\n\n"))
-                        .append(Component.text().content("                    Cleared " + entityRemovalCount + " Entities"))
-                        .append(Component.text("\n\n"))
-                        .append(Component.text().content("**************************************************************")
-                                .decorate(TextDecoration.BOLD)).color(TextColor.color(217, 36, 33)).build());
-            }
-            else {
-                Bukkit.getServer().sendMessage(Component.text().content("**************************************************************")
-                        .decorate(TextDecoration.BOLD)
-                        .append(Component.text("\n\n"))
-                        .append(Component.text().content("                    Cleared " + entityRemovalCount + " Entity"))
-                        .append(Component.text("\n\n"))
-                        .append(Component.text().content("**************************************************************")
-                                .decorate(TextDecoration.BOLD)).color(TextColor.color(217, 36, 33)).build());
-            }
+
+        }, 0, 1200);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(keeleSurvival, this::clearLagNow, 0, clearTimer);
+
+    }
 
 
-        }, 0, clearTimer);
+    public void clearLagNow() {
+
+        entityRemovalCount = 0;
+
+        for (World world : Bukkit.getWorlds()) {
+            entities.addAll(world.getEntities());
+        }
+
+        for (Entity entity : entities) {
+
+            if (entity instanceof LivingEntity) {
+
+                LivingEntity livingEntity = (LivingEntity) entity;
+
+                if (livingEntity.customName() == null
+                        && livingEntity.getTicksLived() >= ticksToRemoval
+                        && livingEntity.getChunk().getEntities().length > 2
+                        && !livingEntity.isLeashed()) {
+
+                    if (!(livingEntity instanceof Player)
+                            || livingEntity instanceof NPC
+                            || livingEntity instanceof Illager
+                            || livingEntity instanceof Boss
+                            || livingEntity instanceof Warden) {
+
+                        livingEntity.remove();
+                        entityRemovalCount++;
+                    }
+
+                }
+
+            } else {
+
+                if (entity.customName() == null
+                        && entity.getTicksLived() >= ticksToRemoval
+                        && entity.getChunk().getEntities().length > 2
+                        && !(entity instanceof Minecart)) {
+
+                    entity.remove();
+                    entityRemovalCount++;
+
+                }
+            }
+        }
+
+        if (entityRemovalCount > 1 || entityRemovalCount == 0) {
+            Bukkit.getServer().sendMessage(Component.text().content("**************************************************************")
+                    .decorate(TextDecoration.BOLD)
+                    .append(Component.text("\n\n"))
+                    .append(Component.text().content("                    Cleared " + entityRemovalCount + " Entities"))
+                    .append(Component.text("\n\n"))
+                    .append(Component.text().content("**************************************************************")
+                            .decorate(TextDecoration.BOLD)).color(TextColor.color(217, 36, 33)).build());
+        } else {
+            Bukkit.getServer().sendMessage(Component.text().content("**************************************************************")
+                    .decorate(TextDecoration.BOLD)
+                    .append(Component.text("\n\n"))
+                    .append(Component.text().content("                    Cleared " + entityRemovalCount + " Entity"))
+                    .append(Component.text("\n\n"))
+                    .append(Component.text().content("**************************************************************")
+                            .decorate(TextDecoration.BOLD)).color(TextColor.color(217, 36, 33)).build());
+        }
 
     }
 
