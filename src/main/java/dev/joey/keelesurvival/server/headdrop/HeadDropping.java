@@ -1,14 +1,15 @@
-package dev.joey.keelesurvival.events.headdrop;
+package dev.joey.keelesurvival.server.headdrop;
 
 import dev.joey.keelesurvival.util.Chance;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.*;
 
-public class HeadSelector {
+public class HeadDropping {
+
 
     String encodedTexture;
 
-    public HeadSelector(LivingEntity entity) {
+    public HeadDropping(LivingEntity entity) {
 
 
         if (entity.getType() == EntityType.ALLAY) {
@@ -409,4 +410,8 @@ public class HeadSelector {
     public String getEncodedTexture() {
         return encodedTexture;
     }
+
+
+
+
 }
