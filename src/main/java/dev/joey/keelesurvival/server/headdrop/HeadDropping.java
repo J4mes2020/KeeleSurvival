@@ -1,6 +1,6 @@
 package dev.joey.keelesurvival.server.headdrop;
 
-import dev.joey.keelesurvival.util.Chance;
+import dev.joey.keelesurvival.util.UtilClass;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.*;
 
@@ -88,7 +88,7 @@ public class HeadDropping {
         }
 
         if (entity.getType() == EntityType.DOLPHIN) {
-            if (Chance.percentageChance(0.0040D)) {
+            if (UtilClass.percentageChance(0.0040D)) {
                 encodedTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQyMDhmYTBmYTY5MDFlYjIzZmUwZGU0YTAyYjU3Y2I2NjFhYzllZDlkNGYwMWRmZGYyZDA3MzM5NzEwNWVjMSJ9fX0=";
             } else {
                 encodedTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU5Njg4Yjk1MGQ4ODBiNTViN2FhMmNmY2Q3NmU1YTBmYTk0YWFjNmQxNmY3OGU4MzNmNzQ0M2VhMjlmZWQzIn19fQ==";
@@ -174,7 +174,7 @@ public class HeadDropping {
         if (entity.getType() == EntityType.LLAMA) {
 
             Llama llama = (Llama) entity;
-            if (Chance.percentageChance(0.00040D)) {
+            if (UtilClass.percentageChance(0.00040D)) {
                 encodedTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTc1ZGVmOTc4N2Y4YWJiYjhmMmYxODkzMjIxMzQwMDgwZTU5NDU0NGRjYWU1NWYwNThiNmQzMzA2MmJhMDI2OCJ9fX0=";
             }
             if (llama.getColor() == Llama.Color.GRAY) {

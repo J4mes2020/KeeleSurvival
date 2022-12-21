@@ -3,9 +3,8 @@ package dev.joey.keelesurvival.server.headdrop;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import dev.joey.keelesurvival.KeeleSurvival;
-import dev.joey.keelesurvival.util.Chance;
+import dev.joey.keelesurvival.util.UtilClass;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -42,7 +41,7 @@ public class HeadEvent implements Listener {
 
     private void dropPlayerHeadOnDeath(Player killer, Player victim) {
 
-        if (killer != null && Chance.percentageChance(0.02D) && killer.getUniqueId() != victim.getUniqueId()) {
+        if (killer != null && UtilClass.percentageChance(0.02D) && killer.getUniqueId() != victim.getUniqueId()) {
             ItemStack head = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) head.getItemMeta();
             meta.setOwningPlayer(victim);
@@ -56,7 +55,7 @@ public class HeadEvent implements Listener {
 
     private void dropMobHeadOnDeath(Player killer, LivingEntity victim) {
 
-        if (killer != null && Chance.percentageChance(0.02D) && !(victim instanceof Player)) {
+        if (killer != null && UtilClass.percentageChance(0.02D) && !(victim instanceof Player)) {
             if (victim instanceof Ageable) {
                 Ageable ageable = (Ageable) victim;
                 if (!ageable.isAdult()) {

@@ -2,6 +2,7 @@ package dev.joey.keelesurvival.admin.clearlag;
 
 import com.destroystokyo.paper.event.block.TNTPrimeEvent;
 import dev.joey.keelesurvival.KeeleSurvival;
+import dev.joey.keelesurvival.util.UtilClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
@@ -102,7 +103,7 @@ public class ClearLag implements Listener {
                     .append(Component.text().content("                    Cleared " + entityRemovalCount + " Entities"))
                     .append(Component.text("\n\n"))
                     .append(Component.text().content("**************************************************************")
-                            .decorate(TextDecoration.BOLD)).color(TextColor.color(217, 36, 33)).build());
+                            .decorate(TextDecoration.BOLD)).color(TextColor.color(UtilClass.error)).build());
         } else {
             Bukkit.getServer().sendMessage(Component.text().content("**************************************************************")
                     .decorate(TextDecoration.BOLD)
@@ -110,7 +111,7 @@ public class ClearLag implements Listener {
                     .append(Component.text().content("                    Cleared " + entityRemovalCount + " Entity"))
                     .append(Component.text("\n\n"))
                     .append(Component.text().content("**************************************************************")
-                            .decorate(TextDecoration.BOLD)).color(TextColor.color(217, 36, 33)).build());
+                            .decorate(TextDecoration.BOLD)).color(TextColor.color(UtilClass.error)).build());
         }
 
     }
@@ -119,12 +120,8 @@ public class ClearLag implements Listener {
 
         if (enabled) {
             event.setCancelled(true);
-            event.getPlayer().sendMessage(
-                    Component.text().content("(!) Sorry we're currently clearing some lag" +
-                                    " and don't want your items deleted, Please try again in a minute")
-                            .style(Style.style(TextColor.color(217, 36, 33))).build());
-
-
+            UtilClass.sendPlayerMessage(event.getPlayer(), "(!) Sorry we're currently clearing some lag" +
+                    " and don't want your items deleted, Please try again in a minute", UtilClass.error);
         }
     }
 
@@ -134,10 +131,9 @@ public class ClearLag implements Listener {
         if (enabled) {
             event.setCancelled(true);
             if (event.getPrimerEntity() instanceof Player) {
-                event.getPrimerEntity().sendMessage(
-                        Component.text().content("(!) Sorry we're currently clearing some lag, Please try to ignite again in a minute")
-                                .style(Style.style(TextColor.color(217, 36, 33))).build());
-
+                UtilClass.sendPlayerMessage((Player) event.getPrimerEntity(),
+                        "(!) Sorry we're currently clearing some lag, Please try to ignite again in a minute",
+                        UtilClass.error);
             }
 
         }

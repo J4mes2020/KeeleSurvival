@@ -1,6 +1,7 @@
 package dev.joey.keelesurvival.server.economy.commands;
 
 import dev.joey.keelesurvival.server.economy.Storage;
+import dev.joey.keelesurvival.util.UtilClass;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,9 +16,19 @@ public class PayCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if (commandSender instanceof Player) {
+        if (!(commandSender instanceof Player)) {
+            commandSender.sendMessage("Sorry only a player can run this command");
+            return true;
+        }
 
-            Player player = (Player) commandSender;
+        Player player = (Player) commandSender;
+
+        if (strings[1].matches("[0-9]+")) {
+
+            UtilClass.se
+
+            return true;
+        }
 
             if (strings.length == 2) {
                 if (strings[1].matches("[0-9]+")) {
