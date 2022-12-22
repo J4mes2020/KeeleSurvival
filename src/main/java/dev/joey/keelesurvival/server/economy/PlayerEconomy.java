@@ -6,9 +6,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class PlayerEconomy implements Listener {
 
+    KeeleSurvival keeleSurvival;
+
     public PlayerEconomy(KeeleSurvival keeleSurvival) {
+        this.keeleSurvival = keeleSurvival;
         keeleSurvival.getServer().getPluginManager().registerEvents(this, keeleSurvival);
     }
 
@@ -16,8 +22,12 @@ public class PlayerEconomy implements Listener {
     public void onJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
-        if (!player.hasPlayedBefore()) {
-            Storage.playerBalance.put(player.getUniqueId(), 1000.00);
+//        if (!player.hasPlayedBefore()) {
+        if (Storage.isValidAmount(keeleSurvival.getConfig().get("starting-balance").toString())) {
+            Storage.getPlayerBalance().put(player.getUniqueId(), Double.valueOf(keeleSurvival.getConfig().get("starting-balance").toString()));
+        }
+        else {
+            Logger.getLogger("command").log(Level.SEVERE, "The starting balance you specified isn't valid");
         }
 
     }

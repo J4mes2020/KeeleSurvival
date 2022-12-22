@@ -5,3 +5,15 @@ api-version: 1.19
 authors: [ Joey ]
 description: A plugin for keele's survival server
 website: https://odionwolf.dev
+
+commands:
+  pay:
+    description: Allows a player to transfer money
+
+  balance:
+    description: Allows a player to transfer money
+    aliases:
+      - bal
+      - balance
+      - money
+      - mon
