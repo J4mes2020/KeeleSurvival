@@ -13,9 +13,11 @@ import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
+import static dev.joey.keelesurvival.util.UtilClass.keeleSurvival;
+
 public class MinecartRemoval implements Listener {
 
-    public MinecartRemoval(KeeleSurvival keeleSurvival) {
+    public MinecartRemoval() {
         keeleSurvival.getServer().getPluginManager().registerEvents(this, keeleSurvival);
     }
 

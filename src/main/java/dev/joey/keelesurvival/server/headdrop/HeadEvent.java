@@ -22,9 +22,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.lang.reflect.Field;
 import java.util.UUID;
 
+import static dev.joey.keelesurvival.util.UtilClass.keeleSurvival;
+
 public class HeadEvent implements Listener {
 
-    public HeadEvent(KeeleSurvival keeleSurvival) {
+    public HeadEvent() {
         keeleSurvival.getServer().getPluginManager().registerEvents(this, keeleSurvival);
     }
 

@@ -3,6 +3,8 @@ version: '${project.version}'
 main: dev.joey.keelesurvival.KeeleSurvival
 api-version: 1.19
 authors: [ Joey ]
+depend:
+  - Vault
 description: A plugin for keele's survival server
 website: https://odionwolf.dev
 
@@ -17,3 +19,11 @@ commands:
       - balance
       - money
       - mon
+
+  balancetop:
+    description: Shows the richest members
+    aliases:
+      - baltop
+      - balancetop
+      - moneytop
+      - montop

@@ -1,10 +1,8 @@
 package dev.joey.keelesurvival.admin.clearlag;
 
 import com.destroystokyo.paper.event.block.TNTPrimeEvent;
-import dev.joey.keelesurvival.KeeleSurvival;
 import dev.joey.keelesurvival.util.UtilClass;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -19,6 +17,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 
 import java.util.ArrayList;
 
+import static dev.joey.keelesurvival.util.UtilClass.keeleSurvival;
+
 public class ClearLag implements Listener {
 
     int clearTimer = 18000;
@@ -29,7 +29,7 @@ public class ClearLag implements Listener {
 
 
 
-    public ClearLag(KeeleSurvival keeleSurvival) {
+    public ClearLag() {
         keeleSurvival.getServer().getPluginManager().registerEvents(this, keeleSurvival);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(keeleSurvival, () -> {
 
