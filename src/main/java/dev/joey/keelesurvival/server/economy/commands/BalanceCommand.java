@@ -1,5 +1,6 @@
 package dev.joey.keelesurvival.server.economy.commands;
 
+import dev.joey.keelesurvival.managers.supers.SuperCommand;
 import dev.joey.keelesurvival.server.economy.Storage;
 import dev.joey.keelesurvival.util.UtilClass;
 import net.kyori.adventure.text.Component;
@@ -14,16 +15,12 @@ import org.jetbrains.annotations.NotNull;
 
 import static dev.joey.keelesurvival.KeeleSurvival.getEconomy;
 
-public class BalanceCommand implements CommandExecutor {
+public class BalanceCommand extends SuperCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("Sorry you must be a player to do this command!");
-            return true;
-
-        }
+        if (commandSenderCheck(commandSender)) return true;
 
         Player player = (Player) commandSender;
 
@@ -35,10 +32,7 @@ public class BalanceCommand implements CommandExecutor {
         if (strings.length == 1) {
 
             Player specifiedPlayer = Bukkit.getPlayer(strings[0]);
-            if (specifiedPlayer == null) {
-                UtilClass.sendPlayerMessage(player, "Sorry thats not a valid player", UtilClass.error);
-                return true;
-            }
+            if (playerNullCheck(specifiedPlayer, player)) return true;
 
             getBalance(player, specifiedPlayer);
             return true;
@@ -50,11 +44,7 @@ public class BalanceCommand implements CommandExecutor {
     }
 
     private void getBalance(Player sender, Player player) {
-//        sender.sendMessage(Component.text()
-//                .content("Balance: ").color(TextColor.color(UtilClass.information)).build()
-//                .append(Component.text(Storage.getPrefix() + Storage.getPlayerBalance().get(player.getUniqueId()))
-//                        .color(TextColor.color(UtilClass.success))).toBuilder().build());
-//
+        Storage.checkAndCreateAccount(player);
 
         sender.sendMessage(Component.text()
                 .content("Balance: ").color(TextColor.color(UtilClass.information)).build()

@@ -1,0 +1,146 @@
+package dev.joey.keelesurvival.server.protection.chestprotection;
+
+import dev.joey.keelesurvival.managers.supers.SuperCommand;
+import dev.joey.keelesurvival.util.ConfigFileHandler;
+import dev.joey.keelesurvival.util.UtilClass;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Chest;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+public abstract class ChestLocking extends SuperCommand {
+
+    ConfigFileHandler configFileHandler = new ConfigFileHandler();
+
+    static HashMap<Integer, List<String>> lockedChestMap = new HashMap<>();
+    List<Block> chests = new LinkedList<>();
+
+
+    public ChestLocking() {
+        loadChestData();
+        System.out.println(lockedChestMap);
+    }
+
+
+    protected void lockChest(Player player, Block block) {
+
+        if (playerNullCheck(player, player)) return;
+        if (block != null && !isLocked(block)) {
+
+            List<String> playersWhoCanAccess = new ArrayList<>(List.of(player.getUniqueId().toString()));
+            lockedChestMap.put(block.hashCode(), playersWhoCanAccess);
+            configFileHandler.getChestFile().set("chests." + block.hashCode() + ".access", playersWhoCanAccess);
+            chests.add(block);
+            UtilClass.sendPlayerMessage(player, "Chest Locked", UtilClass.success);
+        }
+    }
+
+    protected void unlockChest(Player player, Block block) {
+
+        if (playerNullCheck(player, player)) return;
+        if (block != null && isLocked(block)) {
+
+            lockedChestMap.remove(block.hashCode());
+            configFileHandler.getChestFile().set("chests." + block.hashCode(), null);
+            chests.remove(block);
+            UtilClass.sendPlayerMessage(player, "Chest Unlocked", UtilClass.success);
+        }
+    }
+
+    protected List<String> getPlayersWhoCanAccess(Block block) {
+        return lockedChestMap.get(block.hashCode());
+    }
+
+
+    protected boolean hasAccess(Player player, Block block) {
+        return lockedChestMap.get(block.hashCode()).contains(player.getUniqueId().toString());
+    }
+
+    protected boolean isLocked(Block block) {
+        return lockedChestMap.containsKey(block.hashCode());
+    }
+
+    protected boolean isOwner(Player player, Block block) {
+
+        return lockedChestMap.get(block.hashCode()).get(0).equals(player.getUniqueId().toString());
+
+    }
+
+    public HashMap<Integer, List<String>> getLockedChestMap() {
+        return lockedChestMap;
+    }
+
+    private void loadChestData() {
+
+        if (configFileHandler.getChestFile().getConfigurationSection("chests") == null) {
+            return;
+        }
+        configFileHandler.getChestFile().getConfigurationSection("chests").getKeys(false).stream().toList()
+                .forEach(chest -> lockedChestMap.put(Integer.valueOf(chest), configFileHandler.getChestFile().getStringList("chests." + chest + ".access")));
+    }
+
+    protected ArrayList<Block> getAdjacentBlocks(Block placedBlock) {
+
+
+        return new ArrayList<>(
+                List.of(placedBlock.getRelative(-1, 0, 0)
+                        , placedBlock.getRelative(1, 0, 0)
+                        , placedBlock.getRelative(0, 0, -1)
+                        , placedBlock.getRelative(0, 0, 1)));
+    }
+
+    protected boolean canPlayerPlaceChestAdjacent(Player player, Block placedBlock) {
+
+        for (Block blocks : getAdjacentBlocks(placedBlock)) {
+            if (blocks.getType() == Material.CHEST) {
+                if (isLocked(blocks)) {
+                    return hasAccess(player, blocks);
+                }
+            }
+
+        }
+        return true;
+    }
+
+    protected boolean isDoubleChest(Block placedBlock) {
+
+        if (placedBlock.getBlockData() instanceof Chest chest) {
+            return chest.getType() == Chest.Type.LEFT || chest.getType() == Chest.Type.RIGHT;
+        }
+
+        return false;
+
+    }
+
+    protected void unlockOrLockDoubleChests(Player player, Block block) {
+
+        getAdjacentBlocks(block).forEach(adjacentBlock -> {
+            if (adjacentBlock.getType() == Material.CHEST) {
+                if (isLocked(adjacentBlock) && !isLocked(block)) {
+                    lockChest(player, block);
+                    return;
+                }
+                if (isLocked(adjacentBlock) && isLocked(block)) {
+                    unlockChest(player, block);
+                    unlockChest(player, adjacentBlock);
+                }
+                else {
+                    lockChest(player, block);
+                    lockChest(player, adjacentBlock);
+                }
+                
+
+            }
+
+
+        });
+
+    }
+
+
+}

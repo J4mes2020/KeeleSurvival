@@ -3,6 +3,7 @@ package dev.joey.keelesurvival;
 import dev.joey.keelesurvival.managers.CommandManager;
 import dev.joey.keelesurvival.managers.ListenerManager;
 import dev.joey.keelesurvival.server.economy.provider.EconomyProvider;
+import dev.joey.keelesurvival.util.ConfigFileHandler;
 import dev.joey.keelesurvival.util.UtilClass;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -15,13 +16,14 @@ public final class KeeleSurvival extends JavaPlugin {
 
     private static final Logger log = Logger.getLogger("Minecraft");
     public static Economy econ = null;
+    ConfigFileHandler configFileHandler = new ConfigFileHandler();
 
     @Override
     public void onEnable() {
-
         UtilClass.keeleSurvival = this;
 
-        if (!setupEconomy() ) {
+        configFileHandler.createChestFile();
+        if (!setupEconomy()) {
             log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -35,6 +37,7 @@ public final class KeeleSurvival extends JavaPlugin {
     @Override
     public void onDisable() {
         saveConfig();
+        configFileHandler.saveFile();
     }
 
     private boolean setupEconomy() {
@@ -54,7 +57,4 @@ public final class KeeleSurvival extends JavaPlugin {
         return econ;
     }
 
-    public KeeleSurvival getInstance() {
-        return getPlugin(KeeleSurvival.class);
-    }
 }

@@ -24,7 +24,5 @@ public class PlayerEconomy implements Listener {
             getEconomy().createPlayerAccount(player);
             getEconomy().depositPlayer(player, 1000);
         }
-
-        System.out.println(Storage.getPlayerBalance());
     }
 }

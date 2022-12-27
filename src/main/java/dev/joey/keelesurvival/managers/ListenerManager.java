@@ -4,6 +4,7 @@ import dev.joey.keelesurvival.admin.clearlag.ClearLag;
 import dev.joey.keelesurvival.server.economy.listeners.PlayerEconomy;
 import dev.joey.keelesurvival.server.entityclearing.MinecartRemoval;
 import dev.joey.keelesurvival.server.headdrop.HeadEvent;
+import dev.joey.keelesurvival.server.protection.chestprotection.ChestListener;
 
 public class ListenerManager {
 
@@ -13,6 +14,7 @@ public class ListenerManager {
         new MinecartRemoval();
         new HeadEvent();
         new PlayerEconomy();
+        new ChestListener();
 
     }
 }

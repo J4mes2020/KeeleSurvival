@@ -1,5 +1,6 @@
 package dev.joey.keelesurvival.server.economy.commands;
 
+import dev.joey.keelesurvival.managers.supers.SuperCommand;
 import dev.joey.keelesurvival.server.economy.Storage;
 import dev.joey.keelesurvival.util.UtilClass;
 import org.bukkit.Bukkit;
@@ -8,35 +9,27 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
 import static dev.joey.keelesurvival.KeeleSurvival.getEconomy;
 
 
-public class PayCommand implements CommandExecutor {
+public class PayCommand extends SuperCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("Sorry only a player can run this command");
-            return true;
-        }
+        if (commandSenderCheck(commandSender)) return true;
 
         Player player = (Player) commandSender;
 
         if (strings.length == 2) {
 
-            if (!Storage.isValidAmount(strings[1])) {
-                UtilClass.sendPlayerMessage(player, "Sorry that isn't a valid amount", UtilClass.error);
-                return true;
-            }
+            if (validAmountCheck(strings[1], player)) return true;
 
             double paidAmount = UtilClass.round(Double.parseDouble(strings[1]), 2);
             Player payee = Bukkit.getPlayer(strings[0]);
 
-            if (payee == null) {
-                UtilClass.sendPlayerMessage(player, "Sorry " + strings[0] + " isn't a valid player", UtilClass.error);
-                return true;
-            }
+            if (playerNullCheck(payee, player)) return true;
 
             if (player == payee) {
 
@@ -53,7 +46,7 @@ public class PayCommand implements CommandExecutor {
         return false;
     }
 
-    
+
     private void payPlayer(Player player, Player payee, double paidAmount) {
 
         if (getEconomy().has(player, paidAmount)) {
@@ -61,6 +54,7 @@ public class PayCommand implements CommandExecutor {
             return;
         }
 
+        Storage.checkAndCreateAccount(payee);
         getEconomy().withdrawPlayer(player, paidAmount);
         getEconomy().depositPlayer(payee, paidAmount);
 
