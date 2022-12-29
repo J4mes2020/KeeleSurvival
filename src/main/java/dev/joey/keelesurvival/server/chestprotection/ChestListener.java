@@ -1,4 +1,4 @@
-package dev.joey.keelesurvival.server.protection.chestprotection;
+package dev.joey.keelesurvival.server.chestprotection;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import dev.joey.keelesurvival.util.UtilClass;
@@ -25,7 +25,7 @@ import static dev.joey.keelesurvival.util.UtilClass.keeleSurvival;
 public class ChestListener extends ChestLocking implements Listener {
 
     public ChestListener() {
-        super();
+        loadChestData();
         keeleSurvival.getServer().getPluginManager().registerEvents(this, keeleSurvival);
 
         Bukkit.getScheduler().runTaskTimer(keeleSurvival, () -> {
@@ -125,7 +125,7 @@ public class ChestListener extends ChestLocking implements Listener {
 
             Player player = event.getPlayer();
 
-            if (event.getAction().isRightClick()
+            if (event.getAction().isRightClick() && event.getClickedBlock() != null
                     && event.getClickedBlock().getType() == Material.CHEST) {
 
                 Block chest = event.getClickedBlock();
@@ -154,7 +154,6 @@ public class ChestListener extends ChestLocking implements Listener {
                     event.setCancelled(true);
 
                 }
-
 
             }
         }

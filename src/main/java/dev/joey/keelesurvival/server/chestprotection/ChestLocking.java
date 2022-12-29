@@ -1,4 +1,4 @@
-package dev.joey.keelesurvival.server.protection.chestprotection;
+package dev.joey.keelesurvival.server.chestprotection;
 
 import dev.joey.keelesurvival.managers.supers.SuperCommand;
 import dev.joey.keelesurvival.util.ConfigFileHandler;
@@ -13,18 +13,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class ChestLocking extends SuperCommand {
+public abstract class ChestLocking  extends SuperCommand {
 
     ConfigFileHandler configFileHandler = new ConfigFileHandler();
 
     static HashMap<Integer, List<String>> lockedChestMap = new HashMap<>();
     List<Block> chests = new LinkedList<>();
 
-
-    public ChestLocking() {
-        loadChestData();
-        System.out.println(lockedChestMap);
-    }
 
 
     protected void lockChest(Player player, Block block) {
@@ -75,7 +70,7 @@ public abstract class ChestLocking extends SuperCommand {
         return lockedChestMap;
     }
 
-    private void loadChestData() {
+    protected void loadChestData() {
 
         if (configFileHandler.getChestFile().getConfigurationSection("chests") == null) {
             return;
@@ -112,9 +107,7 @@ public abstract class ChestLocking extends SuperCommand {
         if (placedBlock.getBlockData() instanceof Chest chest) {
             return chest.getType() == Chest.Type.LEFT || chest.getType() == Chest.Type.RIGHT;
         }
-
         return false;
-
     }
 
     protected void unlockOrLockDoubleChests(Player player, Block block) {

@@ -108,8 +108,10 @@ public class MinecartRemoval implements Listener {
 
     @EventHandler
     public void onCreate(VehicleCreateEvent event) {
-        RideableMinecart minecart = (RideableMinecart) event.getVehicle();
-        minecart.setMaxSpeed(0.5D);
+
+        if (event.getVehicle() instanceof RideableMinecart minecart) {
+            minecart.setMaxSpeed(0.5D);
+        }
     }
 
 }
