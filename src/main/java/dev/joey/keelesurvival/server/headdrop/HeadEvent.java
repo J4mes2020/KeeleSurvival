@@ -2,7 +2,6 @@ package dev.joey.keelesurvival.server.headdrop;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import dev.joey.keelesurvival.KeeleSurvival;
 import dev.joey.keelesurvival.util.UtilClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -58,8 +57,7 @@ public class HeadEvent implements Listener {
     private void dropMobHeadOnDeath(Player killer, LivingEntity victim) {
 
         if (killer != null && UtilClass.percentageChance(0.02D) && !(victim instanceof Player)) {
-            if (victim instanceof Ageable) {
-                Ageable ageable = (Ageable) victim;
+            if (victim instanceof Ageable ageable) {
                 if (!ageable.isAdult()) {
                     return;
                 }

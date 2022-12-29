@@ -18,7 +18,7 @@ public abstract class ChestLocking  extends SuperCommand {
     ConfigFileHandler configFileHandler = new ConfigFileHandler();
 
     static HashMap<Integer, List<String>> lockedChestMap = new HashMap<>();
-    List<Block> chests = new LinkedList<>();
+    static List<Block> chests = new LinkedList<>();
 
 
 
