@@ -1,10 +1,7 @@
 package dev.joey.keelesurvival.server.economy;
 
-import dev.joey.keelesurvival.KeeleSurvival;
-import dev.joey.keelesurvival.server.economy.provider.EconomyProvider;
-import net.milkbowl.vault.economy.Economy;
+import dev.joey.keelesurvival.util.ConfigFileHandler;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -22,6 +19,22 @@ public class Storage {
 
     public static HashMap<UUID, Double> getPlayerBalance() {
         return Storage.playerBalance;
+    }
+
+    public static void loadBalanceData() {
+
+        ConfigFileHandler configFileHandler = new ConfigFileHandler();
+
+        if (configFileHandler.getPlayerFile().getConfigurationSection("player.balance") == null) {
+            System.out.println("NULL");
+            System.out.println(configFileHandler.getPlayerFile().getConfigurationSection("player"));
+            return;
+        }
+        configFileHandler.getPlayerFile().getConfigurationSection("player.balance").getKeys(false).stream().toList()
+                .forEach(player -> {
+                    getPlayerBalance().put(UUID.fromString(player), configFileHandler.getPlayerFile().getDouble("player.balance." + player));
+
+                });
     }
 
     public static boolean isValidAmount(String amount) {

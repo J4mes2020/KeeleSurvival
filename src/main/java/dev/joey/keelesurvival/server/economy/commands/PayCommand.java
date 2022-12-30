@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+
 import static dev.joey.keelesurvival.KeeleSurvival.getEconomy;
 
 
@@ -24,7 +26,7 @@ public class PayCommand extends SuperCommand implements CommandExecutor {
 
         if (strings.length == 2) {
 
-            if (validAmountCheck(strings[1], player)) return true;
+            if (isAlphanumeric(strings[1], player)) return true;
 
             double paidAmount = UtilClass.round(Double.parseDouble(strings[1]), 2);
             Player payee = Bukkit.getPlayer(strings[0]);
@@ -58,8 +60,8 @@ public class PayCommand extends SuperCommand implements CommandExecutor {
         getEconomy().withdrawPlayer(player, paidAmount);
         getEconomy().depositPlayer(payee, paidAmount);
 
-        UtilClass.sendPlayerMessage(player, "You have sent " + payee.getName() + " " + Storage.getPrefix() + paidAmount, UtilClass.success);
-        UtilClass.sendPlayerMessage(payee, player.getName() + " has sent you " + Storage.getPrefix() + paidAmount, UtilClass.success);
+        UtilClass.sendPlayerMessage(player, "You have sent " + payee.getName() + " " + Storage.getPrefix() + new BigDecimal(paidAmount).toPlainString(), UtilClass.success);
+        UtilClass.sendPlayerMessage(payee, player.getName() + " has sent you " + Storage.getPrefix() + new BigDecimal(paidAmount).toPlainString(), UtilClass.success);
 
     }
 }

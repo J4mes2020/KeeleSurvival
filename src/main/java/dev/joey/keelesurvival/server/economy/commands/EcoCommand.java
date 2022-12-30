@@ -4,6 +4,7 @@ import static dev.joey.keelesurvival.KeeleSurvival.getEconomy;
 
 import dev.joey.keelesurvival.managers.supers.SuperCommand;
 import dev.joey.keelesurvival.server.economy.Storage;
+import dev.joey.keelesurvival.util.ConfigFileHandler;
 import dev.joey.keelesurvival.util.UtilClass;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -11,6 +12,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.math.BigDecimal;
 
 public class EcoCommand extends SuperCommand implements CommandExecutor {
     @Override
@@ -26,7 +29,7 @@ public class EcoCommand extends SuperCommand implements CommandExecutor {
         if (strings.length == 3) {
 
             if (playerNullCheck(strings[1], player)) return true;
-            if (validAmountCheck(strings[2], player)) return true;
+            if (isAlphanumeric(strings[2], player)) return true;
 
             double amount = Double.parseDouble(strings[2]);
             Player target = Bukkit.getPlayer(strings[1]);
@@ -37,15 +40,17 @@ public class EcoCommand extends SuperCommand implements CommandExecutor {
                 Storage.getPlayerBalance().put(target.getUniqueId(), amount);
                 UtilClass.sendPlayerMessage(
                         player, "Set " + target.getName() +
-                                " balance to " + Storage.getPrefix() + amount, UtilClass.success);
+                                " balance to " + Storage.getPrefix()
+                                + new BigDecimal(amount).toPlainString(), UtilClass.success);
                 return true;
             }
 
             if (strings[0].equalsIgnoreCase("add")) {
                 getEconomy().depositPlayer(target, amount);
                 UtilClass.sendPlayerMessage(
-                        player, "Added " + Storage.getPrefix() + amount
+                        player, "Added " + Storage.getPrefix() + new BigDecimal(amount).toPlainString()
                                + " to " + target.getName() + "'s account", UtilClass.success);
+
                 return true;
 
             }

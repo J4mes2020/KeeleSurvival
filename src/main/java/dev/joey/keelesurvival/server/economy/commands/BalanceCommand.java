@@ -13,6 +13,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+
 import static dev.joey.keelesurvival.KeeleSurvival.getEconomy;
 
 public class BalanceCommand extends SuperCommand implements CommandExecutor {
@@ -48,7 +50,7 @@ public class BalanceCommand extends SuperCommand implements CommandExecutor {
 
         sender.sendMessage(Component.text()
                 .content("Balance: ").color(TextColor.color(UtilClass.information)).build()
-                .append(Component.text(Storage.getPrefix() + getEconomy().getBalance(player))
+                .append(Component.text(Storage.getPrefix() + BigDecimal.valueOf(getEconomy().getBalance(player)).toPlainString())
                         .color(TextColor.color(UtilClass.success))).toBuilder().build());
 
     }

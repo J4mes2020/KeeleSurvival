@@ -2,10 +2,13 @@ package dev.joey.keelesurvival;
 
 import dev.joey.keelesurvival.managers.CommandManager;
 import dev.joey.keelesurvival.managers.ListenerManager;
+import dev.joey.keelesurvival.server.economy.Storage;
 import dev.joey.keelesurvival.server.economy.provider.EconomyProvider;
 import dev.joey.keelesurvival.util.ConfigFileHandler;
 import dev.joey.keelesurvival.util.UtilClass;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,21 +26,28 @@ public final class KeeleSurvival extends JavaPlugin {
         UtilClass.keeleSurvival = this;
 
         configFileHandler.createChestFile();
+        configFileHandler.createPlayerFile();
         if (!setupEconomy()) {
             log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
         saveDefaultConfig();
-        new CommandManager();
+        Storage.loadBalanceData();
         new ListenerManager();
+        new CommandManager();
 
     }
 
     @Override
     public void onDisable() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player != null)
+                configFileHandler.getPlayerFile().set("player.balance", player.getUniqueId().toString());
+            configFileHandler.getPlayerFile().set("player.balance." + player.getUniqueId(), Storage.getPlayerBalance().get(player.getUniqueId()));
+        }
         saveConfig();
-        configFileHandler.saveFile();
+        configFileHandler.saveFiles();
     }
 
     private boolean setupEconomy() {

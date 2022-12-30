@@ -32,7 +32,7 @@ public class SuperCommand {
         return false;
     }
 
-    protected boolean validAmountCheck(String amount, Player sender) {
+    protected boolean isAlphanumeric(String amount, Player sender) {
         if (!Storage.isValidAmount(amount)) {
 
             UtilClass.sendPlayerMessage(sender, "Sorry that's not a valid amount", UtilClass.error);

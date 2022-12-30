@@ -130,7 +130,6 @@ public class ChestListener extends ChestLocking implements Listener {
 
                 Block chest = event.getClickedBlock();
 
-
                 if (isLocked(chest) && !hasAccess(player, chest)) {
                     UtilClass.sendPlayerMessage(player, "You don't have access to this chest", UtilClass.error);
                     event.setCancelled(true);
