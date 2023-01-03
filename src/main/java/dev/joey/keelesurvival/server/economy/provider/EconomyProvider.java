@@ -91,12 +91,12 @@ public class EconomyProvider implements Economy {
 
     @Override
     public boolean has(String s, double v) {
-        return Storage.getPlayerBalance().get(Bukkit.getPlayer(s).getUniqueId()) <= v;
+        return Storage.getPlayerBalance().get(Bukkit.getPlayer(s).getUniqueId()) >= v;
     }
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, double v) {
-        return Storage.getPlayerBalance().get(offlinePlayer.getUniqueId()) <= v;
+        return Storage.getPlayerBalance().get(offlinePlayer.getUniqueId()) >= v;
     }
 
     @Override

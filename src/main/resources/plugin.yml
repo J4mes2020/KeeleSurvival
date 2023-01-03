@@ -5,6 +5,7 @@ api-version: 1.19
 authors: [ Joey ]
 depend:
   - Vault
+  - ProtocolLib
 description: A plugin for keele's survival server
 website: https://odionwolf.dev
 commands:
@@ -28,3 +29,15 @@ commands:
     description: Locks a chest whilst player is looking
   unlock:
     description: Unlocks a chest whilst player is looking
+  access:
+    description: Sets a players access for a chest
+  wild:
+    description: Teleports the player to a random spot
+    aliases:
+      - wilderness
+      - wildteleport
+  bounty:
+    description: Allows a player to set a bounty
+    aliases:
+      - moneyhead
+      - head

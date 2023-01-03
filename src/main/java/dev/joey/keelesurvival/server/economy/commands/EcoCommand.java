@@ -29,7 +29,7 @@ public class EcoCommand extends SuperCommand implements CommandExecutor {
         if (strings.length == 3) {
 
             if (playerNullCheck(strings[1], player)) return true;
-            if (isAlphanumeric(strings[2], player)) return true;
+            if (!isAlphanumeric(strings[2], player)) return true;
 
             double amount = Double.parseDouble(strings[2]);
             Player target = Bukkit.getPlayer(strings[1]);

@@ -26,7 +26,7 @@ public class PayCommand extends SuperCommand implements CommandExecutor {
 
         if (strings.length == 2) {
 
-            if (isAlphanumeric(strings[1], player)) return true;
+            if (!isAlphanumeric(strings[1], player)) return true;
 
             double paidAmount = UtilClass.round(Double.parseDouble(strings[1]), 2);
             Player payee = Bukkit.getPlayer(strings[0]);
@@ -51,7 +51,7 @@ public class PayCommand extends SuperCommand implements CommandExecutor {
 
     private void payPlayer(Player player, Player payee, double paidAmount) {
 
-        if (getEconomy().has(player, paidAmount)) {
+        if (!getEconomy().has(player, paidAmount)) {
             UtilClass.sendPlayerMessage(player, "Sorry you don't have sufficient funds", UtilClass.error);
             return;
         }

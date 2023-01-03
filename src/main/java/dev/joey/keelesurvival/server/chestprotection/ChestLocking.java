@@ -13,13 +13,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class ChestLocking  extends SuperCommand {
+public abstract class ChestLocking extends SuperCommand {
 
     ConfigFileHandler configFileHandler = new ConfigFileHandler();
 
     static HashMap<Integer, List<String>> lockedChestMap = new HashMap<>();
     static List<Block> chests = new LinkedList<>();
-
 
 
     protected void lockChest(Player player, Block block) {
@@ -61,9 +60,7 @@ public abstract class ChestLocking  extends SuperCommand {
     }
 
     protected boolean isOwner(Player player, Block block) {
-
         return lockedChestMap.get(block.hashCode()).get(0).equals(player.getUniqueId().toString());
-
     }
 
     public HashMap<Integer, List<String>> getLockedChestMap() {
@@ -121,12 +118,11 @@ public abstract class ChestLocking  extends SuperCommand {
                 if (isLocked(adjacentBlock) && isLocked(block)) {
                     unlockChest(player, block);
                     unlockChest(player, adjacentBlock);
-                }
-                else {
+                } else {
                     lockChest(player, block);
                     lockChest(player, adjacentBlock);
                 }
-                
+
 
             }
 
@@ -135,5 +131,51 @@ public abstract class ChestLocking  extends SuperCommand {
 
     }
 
+    protected boolean addTrustedPlayer(Player player, Block block) {
 
+        if (isLocked(block) && getPlayersWhoCanAccess(block).contains(player.getUniqueId().toString())) {
+            return false;
+        }
+
+        if (isDoubleChest(block)) {
+
+            getAdjacentBlocks(block).forEach(adjacentBlock -> {
+                if (adjacentBlock.getType() == Material.CHEST) {
+                    if (isLocked(adjacentBlock)) {
+                        getPlayersWhoCanAccess(block).add(player.getUniqueId().toString());
+                        getPlayersWhoCanAccess(adjacentBlock).add(player.getUniqueId().toString());
+                        lockedChestMap.put(block.hashCode(), getPlayersWhoCanAccess(block));
+                        lockedChestMap.put(adjacentBlock.hashCode(), getPlayersWhoCanAccess(adjacentBlock));
+                    }
+                }
+            });
+        } else {
+            getPlayersWhoCanAccess(block).add(player.getUniqueId().toString());
+        }
+        return true;
+    }
+
+    protected boolean removeTrustedPlayer(Player player, Block block) {
+
+        if (isLocked(block) && !getPlayersWhoCanAccess(block).contains(player.getUniqueId().toString())) {
+            return false;
+        }
+
+        if (isDoubleChest(block)) {
+
+            getAdjacentBlocks(block).forEach(adjacentBlock -> {
+                if (adjacentBlock.getType() == Material.CHEST) {
+                    if (isLocked(adjacentBlock)) {
+                        getPlayersWhoCanAccess(block).remove(player.getUniqueId().toString());
+                        getPlayersWhoCanAccess(adjacentBlock).remove(player.getUniqueId().toString());
+                        lockedChestMap.put(block.hashCode(), getPlayersWhoCanAccess(block));
+                        lockedChestMap.put(adjacentBlock.hashCode(), getPlayersWhoCanAccess(adjacentBlock));
+                    }
+                }
+            });
+        } else {
+            getPlayersWhoCanAccess(block).remove(player.getUniqueId().toString());
+        }
+        return true;
+    }
 }

@@ -33,12 +33,12 @@ public class SuperCommand {
     }
 
     protected boolean isAlphanumeric(String amount, Player sender) {
-        if (!Storage.isValidAmount(amount)) {
-
-            UtilClass.sendPlayerMessage(sender, "Sorry that's not a valid amount", UtilClass.error);
+        if (Storage.isValidAmount(amount)) {
             return true;
+        } else {
+            UtilClass.sendPlayerMessage(sender, "Sorry that's not a valid amount", UtilClass.error);
+            return false;
         }
-        return false;
     }
 
     protected boolean noPermission(Player player, String... permissions) {

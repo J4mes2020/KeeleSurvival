@@ -26,8 +26,6 @@ public class Storage {
         ConfigFileHandler configFileHandler = new ConfigFileHandler();
 
         if (configFileHandler.getPlayerFile().getConfigurationSection("player.balance") == null) {
-            System.out.println("NULL");
-            System.out.println(configFileHandler.getPlayerFile().getConfigurationSection("player"));
             return;
         }
         configFileHandler.getPlayerFile().getConfigurationSection("player.balance").getKeys(false).stream().toList()

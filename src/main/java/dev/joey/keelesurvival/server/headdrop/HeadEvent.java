@@ -33,6 +33,7 @@ public class HeadEvent implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
         dropPlayerHeadOnDeath(player.getKiller(), player);
+
     }
 
     @EventHandler

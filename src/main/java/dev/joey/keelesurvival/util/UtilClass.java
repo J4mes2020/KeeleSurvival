@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 public class UtilClass {
 
     public static KeeleSurvival keeleSurvival;
-
     static Logger log = Logger.getLogger("Minecraft");
     public static int success = new Color(0, 255, 8).getRGB();
     public static int error = new Color(202, 28, 26).getRGB();
@@ -26,6 +25,12 @@ public class UtilClass {
     public static Boolean percentageChance(double chance) {
 
         return Math.random() <= chance;
+
+    }
+
+    public static boolean isAdvancedSurvivalEnabled() {
+
+        return keeleSurvival.getConfig().getBoolean("advancedSurvival");
 
     }
 

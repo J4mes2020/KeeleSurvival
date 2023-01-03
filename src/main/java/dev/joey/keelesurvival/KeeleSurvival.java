@@ -1,13 +1,16 @@
 package dev.joey.keelesurvival;
 
 import dev.joey.keelesurvival.managers.CommandManager;
+import dev.joey.keelesurvival.managers.DataManager;
 import dev.joey.keelesurvival.managers.ListenerManager;
+import dev.joey.keelesurvival.server.advancedsurvival.bounties.Bounty;
 import dev.joey.keelesurvival.server.economy.Storage;
 import dev.joey.keelesurvival.server.economy.provider.EconomyProvider;
 import dev.joey.keelesurvival.util.ConfigFileHandler;
 import dev.joey.keelesurvival.util.UtilClass;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
@@ -33,7 +36,7 @@ public final class KeeleSurvival extends JavaPlugin {
             return;
         }
         saveDefaultConfig();
-        Storage.loadBalanceData();
+        new DataManager();
         new ListenerManager();
         new CommandManager();
 
@@ -42,9 +45,10 @@ public final class KeeleSurvival extends JavaPlugin {
     @Override
     public void onDisable() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player != null)
-                configFileHandler.getPlayerFile().set("player.balance", player.getUniqueId().toString());
-            configFileHandler.getPlayerFile().set("player.balance." + player.getUniqueId(), Storage.getPlayerBalance().get(player.getUniqueId()));
+            if (player != null) {
+                configFileHandler.getPlayerFile().set("player.balance." + player.getUniqueId(), Storage.getPlayerBalance().get(player.getUniqueId()));
+                configFileHandler.getPlayerFile().set("player.bounties." + player.getUniqueId(), Bounty.getPlayerBounties().get(player.getUniqueId()));
+            }
         }
         saveConfig();
         configFileHandler.saveFiles();
