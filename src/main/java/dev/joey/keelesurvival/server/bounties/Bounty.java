@@ -1,13 +1,21 @@
-package dev.joey.keelesurvival.server.advancedsurvival.bounties;
+package dev.joey.keelesurvival.server.bounties;
 
 import dev.joey.keelesurvival.util.ConfigFileHandler;
+import dev.joey.keelesurvival.util.UtilClass;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class Bounty {
+
     static HashMap<UUID, Double> playerBounties = new HashMap<>();
+    static Inventory bountyInventory = Bukkit.createInventory(null, 54, Component.text().content("Most Wanted").color(TextColor.color(UtilClass.information)).build());
+
 
     public static HashMap<UUID, Double> getPlayerBounties() {
         return playerBounties;

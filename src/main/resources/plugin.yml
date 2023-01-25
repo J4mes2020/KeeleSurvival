@@ -5,7 +5,9 @@ api-version: 1.19
 authors: [ Joey ]
 depend:
   - Vault
-  - ProtocolLib
+  - GriefPrevention
+  - FastAsyncWorldEdit
+
 description: A plugin for keele's survival server
 website: https://odionwolf.dev
 commands:

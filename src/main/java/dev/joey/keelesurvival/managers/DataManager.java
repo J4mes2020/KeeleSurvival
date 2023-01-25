@@ -1,8 +1,9 @@
 package dev.joey.keelesurvival.managers;
 
-import dev.joey.keelesurvival.server.advancedsurvival.bounties.Bounty;
-import dev.joey.keelesurvival.server.advancedsurvival.difficulty.SurvivalDifficulty;
+import dev.joey.keelesurvival.server.bounties.Bounty;
+import dev.joey.keelesurvival.server.SurvivalDifficulty;
 import dev.joey.keelesurvival.server.economy.Storage;
+import dev.joey.keelesurvival.server.enderdragon.ControlDragonSpawn;
 
 public class DataManager {
 
@@ -11,6 +12,7 @@ public class DataManager {
         Storage.loadBalanceData();
         Bounty.loadBountyData();
         new SurvivalDifficulty();
+        new ControlDragonSpawn();
 
     }
 }

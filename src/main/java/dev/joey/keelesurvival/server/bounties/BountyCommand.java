@@ -1,8 +1,11 @@
-package dev.joey.keelesurvival.server.advancedsurvival.bounties;
+package dev.joey.keelesurvival.server.bounties;
 
 import dev.joey.keelesurvival.managers.supers.SuperCommand;
 import dev.joey.keelesurvival.server.economy.Storage;
 import dev.joey.keelesurvival.util.UtilClass;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,8 +24,12 @@ public class BountyCommand extends SuperCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        if (strings.length == 3) {
+        if (strings.length == 0) {
+            player.openInventory(Bounty.bountyInventory);
+            return true;
+        }
 
+        if (strings.length == 3) {
 
             Player target = Bukkit.getPlayer(strings[1]);
             if (playerNullCheck(target, player)) return true;
@@ -46,7 +53,17 @@ public class BountyCommand extends SuperCommand implements CommandExecutor {
                     Bounty.setBounty(target.getUniqueId(), bountyAmount);
                     UtilClass.sendPlayerMessage(player, "Bounty set on "
                             + target.getName() + " for "
-                            + Storage.getPrefix() + strings[2], UtilClass.success);
+                            + Storage.getPrefix() + bountyAmount, UtilClass.success);
+
+                    if (bountyAmount > 10000) {
+                        Bukkit.broadcast(Component.text().content(player.getName() + " has set a " +
+                                        Storage.getPrefix() + bountyAmount + " bounty on " + target.getName())
+                                .decorate(TextDecoration.UNDERLINED)
+                                .color(TextColor.color(0, 227, 255)).build());
+                    } else {
+                        UtilClass.sendPlayerMessage(target, player.getName() + " has set a " +
+                                Storage.getPrefix() + bountyAmount + " bounty on you", UtilClass.information);
+                    }
                 }
 
                 getEconomy().withdrawPlayer(player, bountyAmount);
@@ -70,9 +87,26 @@ public class BountyCommand extends SuperCommand implements CommandExecutor {
                 }
                 return true;
             }
+
+            if (strings[0].equalsIgnoreCase("remove")) {
+
+                if (noPermission(player, "ks.bountyremove")) return true;
+
+                Player target = Bukkit.getPlayer(strings[1]);
+
+                if (Bounty.hasBounty(target)) {
+                    Bounty.removeBounty(target.getUniqueId());
+                    UtilClass.sendPlayerMessage(player, "Removed bounty from " + target.getName(), UtilClass.success);
+                    return true;
+
+                } else {
+                    UtilClass.sendPlayerMessage(player, "That player doesn't have a bounty on them", UtilClass.error);
+                }
+
+            }
         }
 
-        UtilClass.sendPlayerMessage(player, "Invalid Syntax \n /bounty [set/add] <Player> <Amount \n /bounty [get] <Player>", UtilClass.error);
+        UtilClass.sendPlayerMessage(player, "Invalid Syntax \n /bounty [set/add] <Player> <Amount \n /bounty [get] <Player> \n /bounty", UtilClass.error);
         return false;
     }
 }

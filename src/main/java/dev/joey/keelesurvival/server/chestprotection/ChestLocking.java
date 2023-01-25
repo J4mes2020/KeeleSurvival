@@ -1,5 +1,6 @@
 package dev.joey.keelesurvival.server.chestprotection;
 
+import dev.joey.keelesurvival.managers.hook.GriefPreventionHook;
 import dev.joey.keelesurvival.managers.supers.SuperCommand;
 import dev.joey.keelesurvival.util.ConfigFileHandler;
 import dev.joey.keelesurvival.util.UtilClass;
@@ -52,7 +53,8 @@ public abstract class ChestLocking extends SuperCommand {
 
 
     protected boolean hasAccess(Player player, Block block) {
-        return lockedChestMap.get(block.hashCode()).contains(player.getUniqueId().toString());
+        return lockedChestMap.get(block.hashCode()).contains(player.getUniqueId().toString())
+                || GriefPreventionHook.hasTrustAccess(player);
     }
 
     protected boolean isLocked(Block block) {
@@ -61,10 +63,6 @@ public abstract class ChestLocking extends SuperCommand {
 
     protected boolean isOwner(Player player, Block block) {
         return lockedChestMap.get(block.hashCode()).get(0).equals(player.getUniqueId().toString());
-    }
-
-    public HashMap<Integer, List<String>> getLockedChestMap() {
-        return lockedChestMap;
     }
 
     protected void loadChestData() {

@@ -8,10 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class EconomyProvider implements Economy {
     @Override
@@ -21,7 +18,7 @@ public class EconomyProvider implements Economy {
 
     @Override
     public String getName() {
-       return "KeeleEconomy";
+        return "KeeleEconomy";
     }
 
     @Override
@@ -56,7 +53,7 @@ public class EconomyProvider implements Economy {
 
     @Override
     public boolean hasAccount(OfflinePlayer offlinePlayer) {
-       return Storage.getPlayerBalance().containsKey(offlinePlayer.getUniqueId());
+        return Storage.getPlayerBalance().containsKey(offlinePlayer.getUniqueId());
     }
 
     @Override
@@ -114,6 +111,8 @@ public class EconomyProvider implements Economy {
         Storage.getPlayerBalance().put(Bukkit.getPlayer(s).getUniqueId(),
                 Storage.getPlayerBalance().get(Bukkit.getPlayer(s).getUniqueId()) - v);
 
+        UtilClass.sendPlayerMessage(Bukkit.getPlayer(s), Storage.getPrefix() + v + " has been withdrawn from your account", UtilClass.success);
+
         return new EconomyResponse(v, getBalance(s), EconomyResponse.ResponseType.SUCCESS, null);
     }
 
@@ -137,6 +136,7 @@ public class EconomyProvider implements Economy {
     @Override
     public EconomyResponse depositPlayer(String s, double v) {
         Storage.getPlayerBalance().put(Bukkit.getPlayer(s).getUniqueId(), Storage.getPlayerBalance().get(Bukkit.getPlayer(s).getUniqueId()) + v);
+        UtilClass.sendPlayerMessage(Bukkit.getPlayer(s), Storage.getPrefix() + v + " has been deposited into your account", UtilClass.success);
         return new EconomyResponse(v, getBalance(s), EconomyResponse.ResponseType.SUCCESS, null);
     }
 
@@ -232,8 +232,7 @@ public class EconomyProvider implements Economy {
 
         if (Storage.getPlayerBalance().containsKey(Bukkit.getPlayer(s).getUniqueId())) {
             return false;
-        }
-        else {
+        } else {
             Storage.getPlayerBalance().put(Bukkit.getPlayer(s).getUniqueId(), Double.valueOf(UtilClass.keeleSurvival.getConfig().get("starting-balance").toString()));
             return true;
         }
@@ -243,8 +242,7 @@ public class EconomyProvider implements Economy {
     public boolean createPlayerAccount(OfflinePlayer offlinePlayer) {
         if (Storage.getPlayerBalance().containsKey(offlinePlayer.getUniqueId())) {
             return false;
-        }
-        else {
+        } else {
             Storage.getPlayerBalance().put(offlinePlayer.getUniqueId(), Double.valueOf(UtilClass.keeleSurvival.getConfig().get("starting-balance").toString()));
             return true;
         }
@@ -257,6 +255,6 @@ public class EconomyProvider implements Economy {
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer offlinePlayer, String s) {
-       return createPlayerAccount(offlinePlayer);
+        return createPlayerAccount(offlinePlayer);
     }
 }

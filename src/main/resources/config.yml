@@ -1,3 +1,5 @@
 starting-balance: 1000
 currency: £
-advancedSurvival: false
+meteorite_chance: 0.2
+dragonSpawnSeconds: 60
+dragonProgressSeconds: 0

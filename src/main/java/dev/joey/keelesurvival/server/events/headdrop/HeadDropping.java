@@ -1,4 +1,4 @@
-package dev.joey.keelesurvival.server.headdrop;
+package dev.joey.keelesurvival.server.events.headdrop;
 
 import dev.joey.keelesurvival.util.UtilClass;
 import org.bukkit.DyeColor;

@@ -3,9 +3,10 @@ package dev.joey.keelesurvival;
 import dev.joey.keelesurvival.managers.CommandManager;
 import dev.joey.keelesurvival.managers.DataManager;
 import dev.joey.keelesurvival.managers.ListenerManager;
-import dev.joey.keelesurvival.server.advancedsurvival.bounties.Bounty;
+import dev.joey.keelesurvival.server.bounties.Bounty;
 import dev.joey.keelesurvival.server.economy.Storage;
 import dev.joey.keelesurvival.server.economy.provider.EconomyProvider;
+import dev.joey.keelesurvival.server.enderdragon.ControlDragonSpawn;
 import dev.joey.keelesurvival.util.ConfigFileHandler;
 import dev.joey.keelesurvival.util.UtilClass;
 import net.milkbowl.vault.economy.Economy;
@@ -30,6 +31,13 @@ public final class KeeleSurvival extends JavaPlugin {
 
         configFileHandler.createChestFile();
         configFileHandler.createPlayerFile();
+
+        for (World worlds : Bukkit.getWorlds()) {
+
+            worlds.getWorldBorder().setCenter(0, 0);
+            worlds.getWorldBorder().setSize(100000);
+
+        }
         if (!setupEconomy()) {
             log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
@@ -50,6 +58,7 @@ public final class KeeleSurvival extends JavaPlugin {
                 configFileHandler.getPlayerFile().set("player.bounties." + player.getUniqueId(), Bounty.getPlayerBounties().get(player.getUniqueId()));
             }
         }
+        getConfig().set("dragonProgressSeconds", ControlDragonSpawn.secondsElapsed);
         saveConfig();
         configFileHandler.saveFiles();
     }
