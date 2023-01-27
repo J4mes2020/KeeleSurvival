@@ -1,4 +1,4 @@
-package dev.joey.keelesurvival.server.enderdragon;
+package dev.joey.keelesurvival.server.events.enderdragon;
 
 import dev.joey.keelesurvival.KeeleSurvival;
 import dev.joey.keelesurvival.util.UtilClass;
@@ -40,7 +40,7 @@ public class PreviousKill implements Listener {
         if (event.getEntity() instanceof EnderDragon dragon) {
             if (dragon.getWorld().getEnvironment() == World.Environment.THE_END && dragon.getWorld().getEnderDragonBattle().hasBeenPreviouslyKilled()) {
                 event.setDroppedExp(3000);
-                List<UUID> topPlayers = UtilClass.sortByValue(playerDamageDragonMap, false).keySet().stream().toList();
+                List<UUID> topPlayers = new java.util.ArrayList<>(UtilClass.sortByValue(playerDamageDragonMap, false).keySet().stream().toList());
                 int potionEffectTime = 72000;
 
                 for (int i = 0; i < topPlayers.size(); i++) {
@@ -59,11 +59,10 @@ public class PreviousKill implements Listener {
                                     .color(TextColor.color(new Color(0, 255, 255).getRGB()))
                                     .decorate(TextDecoration.UNDERLINED));
                             player.addPotionEffects(List.of(
-                                    new PotionEffect(PotionEffectType.HEALTH_BOOST, potionEffectTime, 2, true, false),
-                                    new PotionEffect(PotionEffectType.LUCK, potionEffectTime, 2, true, false),
-                                    new PotionEffect(PotionEffectType.INCREASE_DAMAGE, keeleSurvival.getConfig().getInt("ticksToRespawn"), 1, true, false))
+                                    new PotionEffect(PotionEffectType.HEALTH_BOOST, potionEffectTime, 1, true, false),
+                                    new PotionEffect(PotionEffectType.LUCK, potionEffectTime, 1, true, false),
+                                    new PotionEffect(PotionEffectType.INCREASE_DAMAGE, keeleSurvival.getConfig().getInt("dragonSpawnSeconds"), 1, true, false))
                             );
-                            return;
                         }
                         case 1 -> {
                             player.getInventory().addItem(new ItemStack(Material.DRAGON_BREATH));
@@ -76,10 +75,9 @@ public class PreviousKill implements Listener {
 
                             player.addPotionEffects(List.of(
                                     new PotionEffect(PotionEffectType.HEALTH_BOOST, potionEffectTime / 2, 1, true, false),
-                                    new PotionEffect(PotionEffectType.LUCK, potionEffectTime, 2, true, false),
-                                    new PotionEffect(PotionEffectType.INCREASE_DAMAGE, keeleSurvival.getConfig().getInt("ticksToRespawn"), 1, true, false))
+                                    new PotionEffect(PotionEffectType.LUCK, potionEffectTime, 1, true, false),
+                                    new PotionEffect(PotionEffectType.INCREASE_DAMAGE, keeleSurvival.getConfig().getInt("dragonSpawnSeconds"), 1, true, false))
                             );
-                            return;
                         }
 
                         case 2 -> {
@@ -91,11 +89,10 @@ public class PreviousKill implements Listener {
                                     .decorate(TextDecoration.UNDERLINED));
 
                             player.addPotionEffects(List.of(
-                                    new PotionEffect(PotionEffectType.HEALTH_BOOST, potionEffectTime / 3, 1, true, false),
-                                    new PotionEffect(PotionEffectType.LUCK, potionEffectTime / 3, 1, true, false),
-                                    new PotionEffect(PotionEffectType.INCREASE_DAMAGE, keeleSurvival.getConfig().getInt("ticksToRespawn"), 1, true, false))
+                                    new PotionEffect(PotionEffectType.HEALTH_BOOST, potionEffectTime / 3, 0, true, false),
+                                    new PotionEffect(PotionEffectType.LUCK, potionEffectTime / 3, 0, true, false),
+                                    new PotionEffect(PotionEffectType.INCREASE_DAMAGE, keeleSurvival.getConfig().getInt("dragonSpawnSeconds"), 1, true, false))
                             );
-                            return;
                         }
                         default -> {
                             player.giveExp(200, true);
@@ -104,11 +101,12 @@ public class PreviousKill implements Listener {
                                     .color(TextColor.color(new Color(0, 255, 255).getRGB()))
                                     .decorate(TextDecoration.UNDERLINED));
 
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, keeleSurvival.getConfig().getInt("ticksToRespawn"), 1, true, false));
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, keeleSurvival.getConfig().getInt("dragonSpawnSeconds"), 1, true, false));
 
                         }
                     }
                 }
+                topPlayers.clear();
             }
 
         }

@@ -1,4 +1,4 @@
-package dev.joey.keelesurvival.server.dynamictnt;
+package dev.joey.keelesurvival.server.events.dynamictnt;
 
 import dev.joey.keelesurvival.util.UtilClass;
 import org.bukkit.Material;

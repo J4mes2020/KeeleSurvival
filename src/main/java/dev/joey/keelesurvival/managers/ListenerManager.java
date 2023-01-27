@@ -2,11 +2,12 @@ package dev.joey.keelesurvival.managers;
 
 import dev.joey.keelesurvival.server.bounties.BountyListener;
 import dev.joey.keelesurvival.server.chestprotection.ChestListener;
-import dev.joey.keelesurvival.server.dynamictnt.DynamicTNT;
+import dev.joey.keelesurvival.server.events.dynamictnt.DynamicTNT;
 import dev.joey.keelesurvival.server.economy.listeners.PlayerEconomy;
-import dev.joey.keelesurvival.server.enderdragon.PreviousKill;
+import dev.joey.keelesurvival.server.events.enderdragon.PreviousKill;
 import dev.joey.keelesurvival.server.events.headdrop.HeadEvent;
 import dev.joey.keelesurvival.server.events.meteorite.SpawnMeteorite;
+import dev.joey.keelesurvival.server.events.sleeping.SleepController;
 
 public class ListenerManager {
 
@@ -19,6 +20,7 @@ public class ListenerManager {
         new BountyListener();
         new DynamicTNT();
         new SpawnMeteorite();
+        new SleepController();
 
     }
 }

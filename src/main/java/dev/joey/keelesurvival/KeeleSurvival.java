@@ -6,7 +6,7 @@ import dev.joey.keelesurvival.managers.ListenerManager;
 import dev.joey.keelesurvival.server.bounties.Bounty;
 import dev.joey.keelesurvival.server.economy.Storage;
 import dev.joey.keelesurvival.server.economy.provider.EconomyProvider;
-import dev.joey.keelesurvival.server.enderdragon.ControlDragonSpawn;
+import dev.joey.keelesurvival.server.events.enderdragon.ControlDragonSpawn;
 import dev.joey.keelesurvival.util.ConfigFileHandler;
 import dev.joey.keelesurvival.util.UtilClass;
 import net.milkbowl.vault.economy.Economy;
