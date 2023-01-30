@@ -1,5 +1,5 @@
 starting-balance: 1000
 currency: £
 meteorite_chance: 0.2
-dragonSpawnSeconds: 60
+dragonSpawnSeconds: 12096000
 dragonProgressSeconds: 0

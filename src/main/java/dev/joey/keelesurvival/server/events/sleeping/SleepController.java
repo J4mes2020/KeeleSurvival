@@ -21,8 +21,6 @@ public class SleepController implements Listener {
 
     public SleepController() {
         keeleSurvival.getServer().getPluginManager().registerEvents(this, keeleSurvival);
-
-        Bukkit.getScheduler().runTaskTimer(keeleSurvival, () -> Bukkit.getOnlinePlayers().forEach(player -> System.out.println(player.getSleepTicks())), 0, 20);
     }
 
     @EventHandler
@@ -37,16 +35,11 @@ public class SleepController implements Listener {
     }
 
     @EventHandler
-    public void onDeepSleep(PlayerDeepSleepEvent event) {
-        event.getPlayer().sleep(event.getPlayer().getLocation(), true);
-
-    }
-
-    @EventHandler
     public void onSpawn(EntitySpawnEvent event) {
 
         if (event.getEntity() instanceof Phantom phantom) {
             phantom.setSize(ThreadLocalRandom.current().nextInt(0, 5));
+            phantom.setTarget(null);
         }
 
     }

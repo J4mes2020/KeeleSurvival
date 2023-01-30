@@ -57,7 +57,7 @@ public class SpawnMeteorite {
                 summonMeteorite(world);
             }
 
-        }, 72000, 72000);
+        }, 0, 288000);
 
     }
 
