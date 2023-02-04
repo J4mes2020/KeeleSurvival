@@ -6,7 +6,6 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.function.pattern.RandomPattern;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.block.BlockState;
 import dev.joey.keelesurvival.managers.hook.GriefPreventionHook;
 import dev.joey.keelesurvival.util.UtilClass;
@@ -104,9 +103,9 @@ public class SpawnMeteorite {
                 pattern.add(stone, 0.2);
                 pattern.add(obsidian, 0.6);
                 pattern.add(lava, 0.6);
-                orepattern.add(coal_ore, 0.35);
-                orepattern.add(iron_ore, 0.3);
-                orepattern.add(copper_ore, 0.2);
+                orepattern.add(coal_ore, 0.45);
+                orepattern.add(iron_ore, 0.4);
+                orepattern.add(copper_ore, 0.3);
                 orepattern.add(gold_ore, 0.2);
                 orepattern.add(redstone_ore, 0.12);
                 orepattern.add(emerald_ore, 0.1);
@@ -121,6 +120,10 @@ public class SpawnMeteorite {
                         5, ThreadLocalRandom.current().nextInt(5, 7),
                         false);
                 session.makeSphere(BlockVector3.at(randomX, y - spawnY, randomZ), orepattern, 4, true);
+
+                int finalY = y;
+                Bukkit.getScheduler().runTaskLater(keeleSurvival, () -> session.makeSphere(BlockVector3.at(randomX, finalY - spawnY, randomZ), BukkitAdapter.adapt(Material.AIR.createBlockData()),
+                        4, true), 36000);
 
             }
 

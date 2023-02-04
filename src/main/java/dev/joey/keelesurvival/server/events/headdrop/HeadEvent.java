@@ -43,7 +43,7 @@ public class HeadEvent implements Listener {
 
     private void dropPlayerHeadOnDeath(Player killer, Player victim) {
 
-        if (killer != null && UtilClass.percentageChance(0.02D) && killer.getUniqueId() != victim.getUniqueId()) {
+        if (killer != null && UtilClass.percentageChance(0.1D) && killer.getUniqueId() != victim.getUniqueId()) {
             ItemStack head = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) head.getItemMeta();
             meta.setOwningPlayer(victim);
@@ -57,7 +57,7 @@ public class HeadEvent implements Listener {
 
     private void dropMobHeadOnDeath(Player killer, LivingEntity victim) {
 
-        if (killer != null && UtilClass.percentageChance(0.02D) && !(victim instanceof Player)) {
+        if (killer != null && UtilClass.percentageChance(0.1D) && !(victim instanceof Player)) {
             if (victim instanceof Ageable ageable) {
                 if (!ageable.isAdult()) {
                     return;

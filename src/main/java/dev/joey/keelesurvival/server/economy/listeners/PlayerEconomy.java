@@ -23,7 +23,7 @@ public class PlayerEconomy implements Listener {
     public void onJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
-        if (!player.hasPlayedBefore() || !getEconomy().hasAccount(player) || player.getName().equalsIgnoreCase("j4mes2020")) {
+        if (!player.hasPlayedBefore() || !getEconomy().hasAccount(player)) {
             getEconomy().createPlayerAccount(player);
             getEconomy().depositPlayer(player, 1000);
         }

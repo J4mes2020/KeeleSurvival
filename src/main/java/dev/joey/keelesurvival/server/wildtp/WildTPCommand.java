@@ -23,9 +23,8 @@ public class WildTPCommand extends SuperCommand implements CommandExecutor {
         double worldBorderSize = player.getWorld().getWorldBorder().getSize();
 
 
-        UtilClass.sendPlayerMessage(player, String.valueOf(worldBorderSize), UtilClass.success);
-        double x = ThreadLocalRandom.current().nextDouble(0, worldBorderSize);
-        double z = ThreadLocalRandom.current().nextDouble(0, worldBorderSize);
+        double x = ThreadLocalRandom.current().nextDouble(0, worldBorderSize/ 2);
+        double z = ThreadLocalRandom.current().nextDouble(0, worldBorderSize / 2);
 
         World world = player.getWorld();
 

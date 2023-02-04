@@ -40,7 +40,7 @@ public class BountyListener implements Listener {
         Player victim = event.getPlayer();
         Player killer = victim.getKiller();
 
-        if (!Bounty.hasBounty(victim) || killer == null) {
+        if (!Bounty.hasBounty(victim) || killer == null || victim == killer) {
             return;
         }
 

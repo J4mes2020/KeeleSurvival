@@ -7,6 +7,7 @@ import dev.joey.keelesurvival.server.chestprotection.commands.TrustAccessCommand
 import dev.joey.keelesurvival.server.economy.commands.BalanceCommand;
 import dev.joey.keelesurvival.server.economy.commands.EcoCommand;
 import dev.joey.keelesurvival.server.economy.commands.PayCommand;
+import dev.joey.keelesurvival.server.events.PlayerFirstTimeBook;
 import dev.joey.keelesurvival.server.wildtp.WildTPCommand;
 
 import static dev.joey.keelesurvival.util.UtilClass.keeleSurvival;
@@ -24,6 +25,7 @@ public class CommandManager {
         keeleSurvival.getCommand("wild").setExecutor(new WildTPCommand());
 
         keeleSurvival.getCommand("bounty").setExecutor(new BountyCommand());
+        keeleSurvival.getCommand("book").setExecutor(new PlayerFirstTimeBook());
 
     }
 }
